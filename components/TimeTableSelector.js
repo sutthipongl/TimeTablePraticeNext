@@ -8,7 +8,7 @@ class timetableselector extends React.Component {
 
         this.state = {
 
-            buttonstatus : [false,false,false,false,false,false,false,false,false,false,false]
+            buttonstatus : [0,0,0,0,0,0,0,0,0,0,0]
         }
     }
 
