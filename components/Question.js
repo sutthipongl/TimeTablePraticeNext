@@ -1,86 +1,52 @@
+import React, {useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
-class Question extends React.Component {
+function Question(props){
 
-	constructor(props)
+	const[num,setNum] = useState(props.qno);
+	const[time,setTimetable] = useState(props.timetable);
+	const[oper,setOperand] = useState(props.operand);
+	const[ans,setAns] = useState(props.ans);
+	const[isDisabled,setIsDisabled] = useState(props.ans == props.timetable*props);
+	const[cResultBadges,setResultBadges] = useState();
+
+	function onEnter(event)
 	{
-		
-		super(props);
-		
-		this.onAnswerChange = this.onAnswerChange.bind(this);
-		this.onEnter = this.onEnter.bind(this);
-
-		this.state = {
-			num : props.qno,
-			time : props.timetable,
-			oper : props.operand,
-			ans : props.ans,
-			isDisabled : props.ans == props.timetable*props ? true:false,
-			cResultBadges : null,
-		}
-	}
-
-	onEnter(event)
-	{
-		
 		if(event.key =='Enter')
 		{
-
-			if(this.state.ans  == this.state.oper * this.state.time)
+			if(ans  == oper * time)
 			{	
+				setResultBadges(<span className="badge badge-success ml-2">Correct !</span>);
+				setIsDisabled(true);
 
-				this.setState({ cResultBadges : <span className="badge badge-success ml-2">Correct !</span>,
-								isDisabled : true},() => this.props.NotifyCorrect());
+				props.NotifyCorrect();
 				
-				
-				;
-
-
 			}else
 			{
-				this.setState({ cResultBadges : <span className="badge badge-danger ml-2">Opps !</span>});
-				
+				setResultBadges(<span className="badge badge-danger ml-2">Opps !</span>);
 			}
 		}
 	}
 
-	onAnswerChange(event)
+	function onAnswerChange(v)
 	{
-		
-		if(!isNaN(event.target.value))
-		{
-			this.setState({ans : event.target.value});
-		}else
-		{
-			this.setState({ans : 0});
-		}
-
-		
-		
+			setAns(!isNaN(v) ? v : null);	
 	}
+	
+	return (
 
-
-
-	render() {
-
-		const num = this.state.num;
-		const time = this.state.time;
-		const operand = this.state.oper;
-
-		return (
-
-			<div className="card">
-				<h6 className="card-header">Question {num}. What is {time} x {operand} ?</h6>
-				<div className="card-body">
-				<p className="card-text"><input type="text" autoFocus onChange={this.onAnswerChange} onKeyPress={this.onEnter} disabled={this.state.isDisabled}/>
-				{this.state.cResultBadges}</p>
-				
-				</div>
+		<div className="card">
+			<h6 className="card-header">Question {num}. What is {time} x {oper} ?</h6>
+			<div className="card-body">
+			<p className="card-text"><input autoFocus onChange={ e => onAnswerChange(e.target.value)} onKeyPress={e => onEnter(e)} disabled={isDisabled}/>
+			{cResultBadges}</p>
+			
 			</div>
-		
-		)
-	}
+		</div>
+	
+	)
+	
 };
 
 export default Question;

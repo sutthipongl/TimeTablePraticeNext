@@ -1,52 +1,38 @@
+import React , {useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-class timetableselector extends React.Component {
+function timetableselector(props)  {
 
-    constructor(props)
-    {
-        super(props);
+    const[buttonstatus,SetButtonStatus] = useState([0,0,0,0,0,0,0,0,0,0,0]);
 
-        this.state = {
-
-            buttonstatus : [0,0,0,0,0,0,0,0,0,0,0]
-        }
-    }
-
-    onClick(n)
+    function handleClick(n)
 	{
-        
-        var mystatus = this.state.buttonstatus;
-
         //flip status
-        mystatus[n-2] = !mystatus[n-2];
+        buttonstatus[n-2] = !buttonstatus[n-2];
 
         //  update status
-        this.setState({buttonstatus : mystatus});
-        
+        SetButtonStatus(buttonstatus);
+       
         // pass latest status to parent via callback
-        this.props.onClick(mystatus);
+        props.onClick(buttonstatus);
     }
     
-    render()
-    {
-        var status = this.state.buttonstatus;
-
-        var btns = status.map((value,index) => {
-         
-            return (
-            <button key={index} type="button" className={value ? "btn btn-danger" : "btn btn-secondary"} onClick={()=>this.onClick(index+2)}>{index+2} </button>
-            )
-        });
-
+    var btns = buttonstatus.map((value,index) => {
+        
         return (
+        <button key={index} type="button" className={value ? "btn btn-danger" : "btn btn-secondary"} onClick={()=> handleClick(index+2)}>{index+2} </button>
+        )
+    });
 
-            <div className="btn-group" role="group" aria-label="Time Table Chooser" disabled={true}>
-               {btns}
-            </div>
+    return (
 
-           
-        );
-    }
+        <div className="btn-group" role="group" aria-label="Time Table Chooser" disabled={true}>
+            {btns}
+        </div>
+
+        
+    );
+    
 }
 
 export default timetableselector;
