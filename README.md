@@ -1,3 +1,6 @@
+# What's new ?
+Division Mode is ready !
+
 # Timetable Practic
 
 This is a tiny game is a fun way to let childern practic timetable and get reward. In behind the scene, it's #React.js #Next.js and #Bootstrap.
@@ -23,3 +26,6 @@ run this command
 - Add score control
 -- set score per question
 -- set max score
+
+# Try it here
+https://timetablepraticenext.now.sh/game
