@@ -18,7 +18,7 @@ function ModeSwitch(props)
     return(
         <div className="custom-control custom-switch">
         <input type="checkbox" className="custom-control-input" id="customSwitch1" onChange={() => handleClick()}/>
-        <label className="custom-control-label" htmlFor="customSwitch1">{IsDevide ? 'Divide' : 'Times'}</label>
+        <label className="custom-control-label" htmlFor="customSwitch1">{IsDevide ? 'Division' : 'Multiplication'}</label>
       </div>
 
     );
