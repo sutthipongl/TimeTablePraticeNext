@@ -6,14 +6,11 @@ function ModeSwitch(props)
 {
     const [IsDevide , setIsDevide] = useState(false);
 
-
-
     function handleClick()
     {
         setIsDevide(!IsDevide);
         props.onClick(IsDevide);
     }
-
 
     return(
         <div className="custom-control custom-switch">

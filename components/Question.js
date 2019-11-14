@@ -24,7 +24,7 @@ function Question(props){
 				}
 			}else
 			{
-				if(ans  == time*oper/time)
+				if(ans  == oper)
 				{	
 					correct = true;
 				}
