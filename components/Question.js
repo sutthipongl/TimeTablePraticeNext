@@ -15,17 +15,33 @@ function Question(props){
 	{
 		if(event.key =='Enter')
 		{
-			if(ans  == oper * time)
-			{	
+			var correct = false;
+			if(!props.modeDivide)
+			{
+				if(ans  == oper * time)
+				{	
+					correct = true;		
+				}
+			}else
+			{
+				if(ans  == time*oper/time)
+				{	
+					correct = true;
+				}
+			}
+
+			if(correct)
+			{
 				setResultBadges(<span className="badge badge-success ml-2">Correct !</span>);
 				setIsDisabled(true);
 
 				props.NotifyCorrect();
-				
 			}else
 			{
 				setResultBadges(<span className="badge badge-danger ml-2">Opps !</span>);
 			}
+			
+			
 		}
 	}
 
@@ -37,7 +53,7 @@ function Question(props){
 	return (
 
 		<div className="card">
-			<h6 className="card-header">Question {num}. What is {time} x {oper} ?</h6>
+			<h6 className="card-header">Question {num}. What is {props.modeDivide ? time*oper : time} {props.modeDivide ? '/' : 'x'} {props.modeDivide ? time : oper} ?</h6>
 			<div className="card-body">
 			<p className="card-text"><input autoFocus onChange={ e => onAnswerChange(e.target.value)} onKeyPress={e => onEnter(e)} disabled={isDisabled}/>
 			{cResultBadges}</p>

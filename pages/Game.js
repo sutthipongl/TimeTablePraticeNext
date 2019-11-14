@@ -1,6 +1,8 @@
 import React , {useState} from 'react';
 import Question from '../components/Question';
 import TimeTableSelector from '../components/TimeTableSelector'
+import ResultModal from '../components/ResultModal';
+import ModeSwitch from '../components/ModeSwitch';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 // //code from https://www.w3resource.com/javascript-exercises/javascript-array-exercise-17.php
@@ -26,12 +28,15 @@ function shuffle(arra1) {
 
 function Game() {
 
+	const [activetimetable,setActiveTimeTable] = useState([]);
 	const [questions,setQuestions] = useState([]);
 	const [currentQuestion,setCurQst] = useState(1);
 	const [scorePerQuestion] = useState(4);
 	const [totalscore,setTotalScore]  = useState(0);
 	const [totalquestions,setTotalQst] = useState(0);
 	const [qKey,setQKey] = useState(Math.random());
+	const [isDone,setIsDone] = useState(false);
+	const [IsDevide , setIsDevide] = useState(false);
 
 
 	function processCorrect()
@@ -41,6 +46,11 @@ function Game() {
 	
 		setCurQst(next > max ? max : next);
 		setTotalScore(Math.min(totalscore+scorePerQuestion,60));
+
+		if(next>max)
+		{
+			setIsDone(true);
+		}
 	}
 
 	function onTimeTableChange(n)
@@ -54,9 +64,15 @@ function Game() {
 			}
 		}
 
+		setActiveTimeTable(newtable);
 		refreshQuestions(newtable);
 	}
 
+	function onModeChange()
+	{	
+		setIsDevide(!IsDevide);
+		refreshQuestions(activetimetable);
+	}
 	function refreshQuestions(ttbb)
 	{
 		// Generate question object and assign to state.questions
@@ -87,29 +103,49 @@ function Game() {
 		setTotalQst(ttbb.length * alloperands.length);
 		setQKey(Math.random());
 	}
+
+	function toggleResult()
+	{
+		setIsDone(!isDone);
+	}
   
 	var data = questions ;
 	var display = [];
 	var myRandomKey = qKey;
 
+
 	for (var q = 0 ; q < Math.min(currentQuestion,totalquestions) ;)
 	{	
 		
 		display = display.concat (
-								<Question  key={myRandomKey} qno={q+1} timetable={data[q].timetable} operand={data[q].operand} ans={data[q].answer} NotifyCorrect={()=> processCorrect()} />
-				);			
+								<Question  key={myRandomKey} qno={q+1} timetable={data[q].timetable} operand={data[q].operand} ans={data[q].answer} NotifyCorrect={()=> processCorrect()} modeDivide={IsDevide}/>
+				);	
+		
 		++q;
 		++myRandomKey;
-	
+		
 	}
 
-	  return (
-				<div className="container">
+	var resultData = "I pratice timetable ";
+	for(var m=0 ; m < activetimetable.length ; ++m)
+	{
+		resultData += activetimetable[m] ;
+		if (activetimetable[m+1])
+			resultData += ",";
+	}
+
+	resultData += " and get "+totalscore+" points from "+ totalquestions + " questions";
+
+
+	return (
+	  
+		<div className={`container ${isDone ? 'modal-open' :''}`}>
 					<div className="row">			
 						<div className="col-md">
 							{display}
 						</div>
-						<div className="col-sm">
+						<div className="col-sm  modal-open">
+							<ModeSwitch onClick={ (s) => onModeChange(s)}/>
 							<TimeTableSelector onClick={(t) => onTimeTableChange(t)}/>
 							<div className="card">
 								<h6 className="card-header">Total Questions : {totalquestions}</h6>
@@ -117,11 +153,18 @@ function Game() {
 							</div>
 							<div className="card">
 								<h6 className="card-header">Points : {totalscore}</h6>
-						
 							</div>
+					
+							
 						</div>	
 					</div>
+					<div className="row">
+						<ResultModal showResult={isDone} hideResult={()=>toggleResult()} data={resultData}/>
+					</div>
 				</div>
+	
+
+				
 	  );
 	
   }
