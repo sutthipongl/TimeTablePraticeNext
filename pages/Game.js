@@ -1,9 +1,23 @@
 import React , {useState} from 'react';
 import Question from '../components/Question';
 import TimeTableSelector from '../components/TimeTableSelector'
-import ResultModal from '../components/ResultModal';
 import ModeSwitch from '../components/ModeSwitch';
-import 'bootstrap/dist/css/bootstrap.min.css';
+
+import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
+const useStyles = makeStyles(theme => ({
+	root: {
+	  flexGrow: 1,
+	},
+  }));
 
 // //code from https://www.w3resource.com/javascript-exercises/javascript-array-exercise-17.php
 
@@ -31,7 +45,7 @@ function Game() {
 	const [activetimetable,setActiveTimeTable] = useState([]);
 	const [questions,setQuestions] = useState([]);
 	const [currentQuestion,setCurQst] = useState(1);
-	const [scorePerQuestion] = useState(4);
+	const [scorePerQuestion] = useState(3);
 	const [totalscore,setTotalScore]  = useState(0);
 	const [totalquestions,setTotalQst] = useState(0);
 	const [qKey,setQKey] = useState(Math.random());
@@ -73,6 +87,11 @@ function Game() {
 		setIsDevide(!IsDevide);
 		refreshQuestions(activetimetable);
 	}
+
+	const handleDialogClose = () => {
+		setIsDone(false);
+	  };
+
 	function refreshQuestions(ttbb)
 	{
 		// Generate question object and assign to state.questions
@@ -136,33 +155,41 @@ function Game() {
 
 	resultData += " and get "+totalscore+" points from "+ totalquestions + " questions";
 
+	const classes = useStyles();
 
 	return (
+		
 	  
-		<div className={`container ${isDone ? 'modal-open' :''}`}>
-					<div className="row">			
-						<div className="col-md">
-							{display}
-						</div>
-						<div className="col-sm  modal-open">
-							<ModeSwitch onClick={ (s) => onModeChange(s)}/>
-							<TimeTableSelector onClick={(t) => onTimeTableChange(t)}/>
-							<div className="card">
-								<h6 className="card-header">Total Questions : {totalquestions}</h6>
-				
-							</div>
-							<div className="card">
-								<h6 className="card-header">Points : {totalscore}</h6>
-							</div>
-					
-							
-						</div>	
-					</div>
-					<div className="row">
-						<ResultModal showResult={isDone} hideResult={()=>toggleResult()} data={resultData}/>
-					</div>
-				</div>
-	
+		<div className={classes.root}>
+			<Grid container spacing={3}>	
+				<Grid item xs={6}>
+					<ModeSwitch onClick={ (s) => onModeChange(s)}/>
+					<TimeTableSelector onClick={(t) => onTimeTableChange(t)}/>
+						<Typography variant="h6" gutterBottom>
+							Total Questions : {totalquestions}
+      					</Typography>
+						<Typography variant="h6" gutterBottom>
+							Points : {totalscore}
+						</Typography>
+						<Dialog open={isDone}  aria-labelledby="form-dialog-title">
+							<DialogTitle id="form-dialog-title">Result</DialogTitle>
+							<DialogContent>
+								<DialogContentText>
+									{resultData}
+								</DialogContentText>
+							</DialogContent>
+							<DialogActions>
+								<Button onClick={handleDialogClose} color="primary" autoFocus>
+									Ok
+								</Button>
+							</DialogActions>
+						</Dialog>
+				</Grid>
+				<Grid item xs={6}>
+					{display}
+				</Grid>
+			</Grid>
+	  </div>
 
 				
 	  );
@@ -170,3 +197,5 @@ function Game() {
   }
 
   export default Game;
+
+

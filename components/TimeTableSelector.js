@@ -1,5 +1,6 @@
 import React , {useState} from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import Button from '@material-ui/core/Button';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
 
 function timetableselector(props)  {
 
@@ -20,17 +21,16 @@ function timetableselector(props)  {
     var btns = buttonstatus.map((value,index) => {
         
         return (
-        <button key={index} type="button" className={value ? "btn btn-danger" : "btn btn-secondary"} onClick={()=> handleClick(index+2)}>{index+2} </button>
+        <Button key={index} color={value ? "primary" : "secondary"} onClick={()=> handleClick(index+2)}>{index+2} </Button>
         )
     });
 
     return (
 
-        <div className="btn-group" role="group" aria-label="Time Table Chooser" disabled={true}>
-            {btns}
-        </div>
+            <ButtonGroup  variant="contained" aria-label="outlined primary button group">
+                {btns}
+            </ButtonGroup>
 
-        
     );
     
 }

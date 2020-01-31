@@ -1,21 +1,40 @@
 import React,{useState} from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { makeStyles } from '@material-ui/core/styles';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
 
+const useStyles = makeStyles(theme => ({
+    formControl: {
+      margin: theme.spacing(1),
+
+    },
+
+  }));
 
 function ModeSwitch(props)
 {
-    const [IsDevide , setIsDevide] = useState(false);
+    const [Mode , setMode] = useState("Multiplication");
 
-    function handleClick()
+    function handleChange(e)
     {
-        setIsDevide(!IsDevide);
-        props.onClick(IsDevide);
+        console.log(e.target.value);
+        setMode(e.target.value);
+        props.onClick(e.target.value === "Division");
     }
 
+    const classes = useStyles();
     return(
         <div className="custom-control custom-switch">
-        <input type="checkbox" className="custom-control-input" id="customSwitch1" onChange={() => handleClick()}/>
-        <label className="custom-control-label" htmlFor="customSwitch1">{IsDevide ? 'Division' : 'Multiplication'}</label>
+            <FormControl component="fieldset" className={classes.formControl}>
+                <FormLabel component="legend">Mode</FormLabel>
+                    <RadioGroup row aria-label="pratice mode" name="mode" value={Mode} onChange={handleChange}>
+                        <FormControlLabel value="Multiplication" control={<Radio />} label="Multiplication" />
+                        <FormControlLabel value="Division" control={<Radio />} label="Division" />
+                    </RadioGroup>
+            </FormControl>
       </div>
 
     );

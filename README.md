@@ -18,7 +18,7 @@ Apologize for UI design , feel free to check out the code and improve it
 ## To setup environment
 
 run this command
->npm install --save bootstrap react react-dom next @zeit/next-css
+>npm install --save react react-dom next @material-ui/core @material-ui/icons
 
 ## Some more ideas
 
@@ -26,6 +26,7 @@ run this command
 - Add score control
 -- set score per question
 -- set max score
+- Timed Game
 
 # Try it here
 https://timetablepraticenext.now.sh/game
