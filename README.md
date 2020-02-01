@@ -1,9 +1,10 @@
 # What's new ?
-Division Mode is ready !
+- List all questions and score them all at once - 01 Feb 2020 , checkout gamechallenge page 
+- Division Mode is ready !
 
 # Timetable Practic
 
-This is a tiny game is a fun way to let childern practic timetable and get reward. In behind the scene, it's #React.js #Next.js and #Bootstrap.
+This is a tiny game is a fun way to let childern practic timetable and get reward. In behind the scene, it's #React.js #Next.js and #Material-UI.
 
 # How does it work ?
 
@@ -22,7 +23,6 @@ run this command
 
 ## Some more ideas
 
-- We can list all questions and score them all at once
 - Add score control
 -- set score per question
 -- set max score
