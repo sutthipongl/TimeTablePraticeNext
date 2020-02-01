@@ -18,7 +18,6 @@ const useStyles = makeStyles(theme => ({
   }));
 
 // //code from https://www.w3resource.com/javascript-exercises/javascript-array-exercise-17.php
-
 function shuffle(arra1) {
     var ctr = arra1.length, temp, index;
 
@@ -36,8 +35,6 @@ function shuffle(arra1) {
     return arra1;
 }
 
-
-
 function GameChallenge() {
 
 	const [activetimetable,setActiveTimeTable] = useState([]);
@@ -47,7 +44,6 @@ function GameChallenge() {
 	const [isDone,setIsDone] = useState(false);
 	const [IsDevide , setIsDevide] = useState(false);
 	const [answer,setAnswer] = useState([]);
-
 
 	function onTimeTableChange(n)
 	{
@@ -61,7 +57,7 @@ function GameChallenge() {
 		}
 
 		setActiveTimeTable(newtable);
-		refreshQuestions(newtable,setIsDevide);
+		refreshQuestions(newtable,IsDevide);
 	};
 
 	function onModeChange(newmode)
@@ -95,24 +91,20 @@ function GameChallenge() {
 				);
 			}
 		}
-		
 
 		setQuestions(initQ);
 		setTotalScore(0);
 		setTotalQst(ttbb.length * alloperands.length);
 		setAnswer([]);
 		setIsDone(false);
-
 	};
 
 	function onAnswerChange(index, ans)
 	{
 		if(!isNaN(ans) ) {
-			let temp = answer.slice();
-			temp[index] = ans.trim();
-			setAnswer(temp);
+			answer[index] = ans.trim();
+			setAnswer(answer);
 		}
-
 	};
 
 	function checkAnswer()
@@ -126,15 +118,13 @@ function GameChallenge() {
 
 		setTotalScore(score);
 		setIsDone(true);
-
 	};
 
 
 	const classes = useStyles();
 
 	return (
-		
-	  
+
 		<div className={classes.root}>
 			<Grid container direction="column" spacing={3}>
 				<Grid item xs={6}>
@@ -172,13 +162,11 @@ function GameChallenge() {
 								</Typography>
 							</Paper>
 							))
-
 					}
 				</Grid>
 			</Grid>
 	  </div>
 	  );
-	
   }
 
   export default GameChallenge;
