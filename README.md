@@ -27,6 +27,3 @@ run this command
 -- set score per question
 -- set max score
 - Timed Game
-
-# Try it here
-https://timetablepraticenext.now.sh/game
